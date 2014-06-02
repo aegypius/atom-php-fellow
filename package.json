@@ -1,0 +1,14 @@
+{
+  "name": "php-fellow",
+  "main": "./lib/php-fellow",
+  "version": "0.0.0",
+  "description": "A plugin that provides cool stuff for PHP 5.3+ coding session.",
+  "activationEvents": ["php-fellow:toggle"],
+  "repository": "https://github.com/aegypius/php-fellow",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
