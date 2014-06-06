@@ -1,13 +1,32 @@
-PhpFellowView = require './php-fellow-view'
+NamespaceGuesser = require "./namespace-guesser"
 
 module.exports =
-  phpFellowView: null
+
+  injectNamespaceStatement: ->
+    editor  = atom.workspace.getActiveEditor()
+    nsi     = new NamespaceGuesser
+    nsi.inject(editor)
+
+  injectUseStatement: ->
+    console.info "inject use"
+
+  expandFQCN: ->
+    console.info "expand FQCN"
 
   activate: (state) ->
-    @phpFellowView = new PhpCompanionView(state.phpFellowViewState)
+
+    atom.workspaceView.command "php-fellow:inject-namespace-stmt"
+      , ".editor"
+      , => @injectNamespaceStatement()
+
+    atom.workspaceView.command "php-fellow:inject-use-stmt"
+      , ".editor"
+      , => @injectUseStatement()
+
+    atom.workspaceView.command "php-fellow:expand-fqcn"
+      , ".editor"
+      , => @expandFQCN()
 
   deactivate: ->
-    @phpFellowView.destroy()
 
   serialize: ->
-    phpFellowViewState: @phpFellowView.serialize()
