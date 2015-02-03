@@ -15,17 +15,10 @@ module.exports =
 
   activate: (state) ->
 
-    atom.workspaceView.command "php-fellow:inject-namespace-stmt"
-      , ".editor"
-      , => @injectNamespaceStatement()
-
-    atom.workspaceView.command "php-fellow:inject-use-stmt"
-      , ".editor"
-      , => @injectUseStatement()
-
-    atom.workspaceView.command "php-fellow:expand-fqcn"
-      , ".editor"
-      , => @expandFQCN()
+    atom.commands.add "atom-text-editor",
+      "php-fellow:inject-namespace-stmt": => @injectNamespaceStatement()
+      "php-fellow:inject-use-stmt":       => @injectUseStatement()
+      "php-fellow:expand-fqcn":           => @expandFQCN()
 
   deactivate: ->
 

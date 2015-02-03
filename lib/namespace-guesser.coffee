@@ -1,16 +1,17 @@
-Q              = require "q"
+Promise        = require "bluebird"
 fs             = require "fs"
 path           = require "path"
 {EventEmitter} = require "events"
+{Range}        = require "atom"
 
 module.exports =
   class NamespaceGuesser extends EventEmitter
     inject: (editor) ->
 
-      Q.fcall ->
+      new Promise (resolve, reject) ->
         if editor.getGrammar().scopeName isnt "text.html.php"
-          throw new Error "Buffer must be a PHP script"
-        return editor.getPath()
+          reject new Error "Buffer must be a PHP script"
+        resolve editor.getPath()
 
       .then =>
         @guessNamespace editor.getPath()
@@ -20,7 +21,19 @@ module.exports =
           throw new Error "Unable to guess namespace"
         console.log "namespace for #{editor.getPath()} is #{namespace}"
 
-      .fail (error)=>
+        # Remove other namespace and return range if there's a match
+        range = undefined
+        editor.scan /^\s*\bnamespace\b.*$/, (object)->
+          range = object.range
+
+        text = "namespace #{namespace};"
+        unless range
+          range = new Range [1, 0], [1, 0]
+          text = "#{text}\n\n"
+
+        editor.setTextInBufferRange range, text
+
+      .catch (error)=>
         console.error "error: ", error
         @emit "error", error
 
@@ -57,4 +70,6 @@ module.exports =
           ].join '\\'
           break
 
-      return namespace.replace /\\{2,}/, '\\'
+      return namespace
+        .replace /\\{2,}/, '\\'
+        .replace /^\\/, ''
