@@ -7,7 +7,7 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'.editor':
+'atom-workspace atom-text-editor':
   'f4':       'php-fellow:inject-namespace-stmt'
   'f5':       'php-fellow:inject-use-stmt'
   'f6':       'php-fellow:expand-fqcn'
