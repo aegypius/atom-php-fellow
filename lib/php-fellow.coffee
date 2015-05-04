@@ -5,13 +5,17 @@ module.exports =
   injectNamespaceStatement: ->
     editor  = atom.workspace.getActiveEditor()
     nsi     = new NamespaceGuesser
-    nsi.inject(editor)
+    nsi.inject editor
 
   injectUseStatement: ->
-    console.info "inject use"
+    editor  = atom.workspace.getActiveEditor()
+    nsi     = new NamespaceGuesser
+
 
   expandFQCN: ->
-    console.info "expand FQCN"
+    editor  = atom.workspace.getActiveEditor()
+    nsi     = new NamespaceGuesser
+
 
   activate: (state) ->
 

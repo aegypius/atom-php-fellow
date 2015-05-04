@@ -19,21 +19,23 @@ module.exports =
       .then (namespace)->
         if namespace is null
           throw new Error "Unable to guess namespace"
-        console.log "namespace for #{editor.getPath()} is #{namespace}"
+
+        atom.notifications.addSuccess "Namespace updated to #{namespace}"
 
         # Remove other namespace and return range if there's a match
         range = undefined
-        editor.scan /^\s*\bnamespace\b.*$/, (object)->
+        editor.scan /^\s*\bnamespace\b.*\r?\n*$/m, (object)->
           range = object.range
 
-        text = "namespace #{namespace};"
+        text = "\nnamespace #{namespace};\n"
         unless range
           range = new Range [1, 0], [1, 0]
-          text = "#{text}\n\n"
 
         editor.setTextInBufferRange range, text
 
       .catch (error)=>
+        if error.message?
+          atom.notifications.addError error.message
         console.error "error: ", error
         @emit "error", error
 
@@ -61,15 +63,18 @@ module.exports =
 
     guessNamespace: (filepath)->
       console.info "info: try to guess a namespace"
-      namespace = null
-      for src, prefix of @loadNamespacePrefixes filepath
-        if filepath.startsWith src
-          namespace = [
-            prefix
-            ((path.dirname filepath).replace src, "").replace /\//g, '\\'
-          ].join '\\'
-          break
+      namespace = ""
+      if filepath is undefined
+        throw new Error "You must save your file before."
+      else
+        for src, prefix of @loadNamespacePrefixes filepath
+          if filepath.startsWith src
+            namespace = [
+              prefix
+              ((path.dirname filepath).replace src, "").replace /\//g, '\\'
+            ].join '\\'
+            break
 
-      return namespace
-        .replace /\\{2,}/, '\\'
-        .replace /^\\/, ''
+        namespace
+          .replace /\\{2,}/, '\\'
+          .replace /^\\/, ''
