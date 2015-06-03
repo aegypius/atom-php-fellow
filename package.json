@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "description": "A plugin that provides cool stuff for PHP 5.3+ coding session.",
   "activationCommands": [],
-  "repository": "https://github.com/aegypius/php-fellow",
+  "repository": "https://github.com/aegypius/atom-php-fellow",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">0.200.0"
   },
   "dependencies": {
     "bluebird": "^2.8.1"
