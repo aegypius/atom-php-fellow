@@ -3,17 +3,17 @@ NamespaceGuesser = require "./namespace-guesser"
 module.exports =
 
   injectNamespaceStatement: ->
-    editor  = atom.workspace.getActiveEditor()
+    editor  = atom.workspace.getActiveTextEditor()
     nsi     = new NamespaceGuesser
     nsi.inject editor
 
   injectUseStatement: ->
-    editor  = atom.workspace.getActiveEditor()
+    editor  = atom.workspace.getActiveTextEditor()
     nsi     = new NamespaceGuesser
 
 
   expandFQCN: ->
-    editor  = atom.workspace.getActiveEditor()
+    editor  = atom.workspace.getActiveTextEditor()
     nsi     = new NamespaceGuesser
 
 
