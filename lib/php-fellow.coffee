@@ -1,4 +1,4 @@
-NamespaceGuesser = require "./namespace-guesser"
+NamespaceGuesser = ()->
 
 module.exports =
 
@@ -18,7 +18,7 @@ module.exports =
 
 
   activate: (state) ->
-
+    NamespaceGuesser = require "./namespace-guesser"
     atom.commands.add "atom-text-editor",
       "php-fellow:inject-namespace-stmt": => @injectNamespaceStatement()
       "php-fellow:inject-use-stmt":       => @injectUseStatement()

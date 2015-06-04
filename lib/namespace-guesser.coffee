@@ -1,8 +1,9 @@
-Promise        = require "bluebird"
-fs             = require "fs"
-path           = require "path"
-{EventEmitter} = require "events"
-{Range}        = require "atom"
+Promise                   = require "bluebird"
+fs                        = require "fs"
+path                      = require "path"
+{EventEmitter}            = require "events"
+{Range}                   = require "atom"
+{UnsupportedGrammarError} = require "./errors"
 
 module.exports =
   class NamespaceGuesser extends EventEmitter
@@ -10,14 +11,14 @@ module.exports =
 
       new Promise (resolve, reject) ->
         if editor.getGrammar().scopeName isnt "text.html.php"
-          reject new Error "Buffer must be a PHP script"
+          reject new UnsupportedGrammarError
         resolve editor.getPath()
 
       .then =>
         @guessNamespace editor.getPath()
 
       .then (namespace)->
-        if namespace is null
+        if namespace is null or namespace is ""
           throw new Error "Unable to guess namespace"
 
         atom.notifications.addSuccess "Namespace updated to #{namespace}"
@@ -34,8 +35,9 @@ module.exports =
         editor.setTextInBufferRange range, text
 
       .catch (error)=>
-        if error.message?
+        if error.message? and error not instanceof UnsupportedGrammarError
           atom.notifications.addError error.message
+
         console.error "error: ", error
         @emit "error", error
 
