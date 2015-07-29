@@ -80,3 +80,4 @@ module.exports =
         namespace
           .replace /\\{2,}/, '\\'
           .replace /^\\/, ''
+          .replace /\\$/, ''
