@@ -61,6 +61,10 @@ module.exports =
         for prefix, src of pkg.autoload['psr-0']
           prefixes[path.join current_path, src.replace /\/$/, ''] = prefix
 
+      if pkg.autoload['psr-4']?
+        for prefix, src of pkg.autoload['psr-4']
+          prefixes[path.join current_path, src.replace /\/$/, ''] = prefix
+
       return prefixes
 
     guessNamespace: (filepath)->
