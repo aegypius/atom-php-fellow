@@ -1,4 +1,3 @@
-Promise                   = require "bluebird"
 fs                        = require "fs"
 path                      = require "path"
 {EventEmitter}            = require "events"

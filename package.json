@@ -7,9 +7,7 @@
   "repository": "https://github.com/aegypius/atom-php-fellow",
   "license": "MIT",
   "engines": {
-    "atom": ">0.200.0"
+    "atom": ">1.18.0"
   },
-  "dependencies": {
-    "bluebird": "^2.8.1"
-  }
+  "dependencies": {}
 }
