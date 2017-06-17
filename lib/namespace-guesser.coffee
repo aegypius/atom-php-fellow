@@ -57,13 +57,14 @@ module.exports =
 
       prefixes = []
 
-      if pkg.autoload['psr-0']?
-        for prefix, src of pkg.autoload['psr-0']
-          prefixes[path.join current_path, src.replace /\/$/, ''] = prefix
+      for section in ['autoload', 'autoload-dev']
+        if pkg[section]?
 
-      if pkg.autoload['psr-4']?
-        for prefix, src of pkg.autoload['psr-4']
-          prefixes[path.join current_path, src.replace /\/$/, ''] = prefix
+          # PSR Autoloading
+          for psr in ['psr-0', 'psr-4']
+            if pkg[section][psr]?
+              for prefix, src of pkg[section][psr]
+                prefixes[path.join current_path, src.replace /\/$/, ''] = prefix
 
       return prefixes
 
